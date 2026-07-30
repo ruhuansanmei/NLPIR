@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- * NLPIR/ICTCLAS Lexical Analysis System Copyright (c) 2000-2014
+ * NLPIR/ICTCLAS Lexical Analysis System Copyright (c) 2000-2018
  *     Dr. Kevin Zhang (Hua-Ping Zhang)
  *     All rights reserved.
  *
@@ -13,14 +13,14 @@
  * Author:   Kevin Zhang 
  *          Email: pipy_zhang@msn.com kevinzhang@bit.edu.cn
  *			Weibo: http://weibo.com/drkevinzhang
- *			Homepage: http://ictclas.nlpir.org
- * Date:     2013-12-19
- *
+ *			Homepage: http://www.nlpir.org
+ * Date:     2018-2-28
+ *			Adding NLPIR_Tokenizer4IR in 2019/12/26
  * Notes:
  *                
  ****************************************************************************/
-#if !defined(__NLPIR_ICTCLAS_2014_H_INCLUDED__)
-#define __NLPIR_ICTCLAS_2014_H_INCLUDED__
+#if !defined(__NLPIR_ICTCLAS_2018_H_INCLUDED__)
+#define __NLPIR_ICTCLAS_2018_H_INCLUDED__
 
 #ifdef OS_LINUX
 	#define NLPIR_API extern "C" 
@@ -37,7 +37,7 @@
 #ifdef NLPIR_INTERNAL_CALL
 #define NLPIR_API 
 #endif
-#ifdef NLPIR_STATIC
+#ifdef _LIB
 #define NLPIR_API extern "C"  
 #endif
 
@@ -81,11 +81,17 @@ struct result_t{
   int weight;//word weight,read weight
  };
 
+#define UNKNOWN_CODE -1//如果是各种编码混合，设置为-1，系统自动检测，并内部转换。会多耗费时间，不推荐使用
 #define GBK_CODE 0//默认支持GBK编码
 #define UTF8_CODE GBK_CODE+1//UTF8编码
 #define BIG5_CODE GBK_CODE+2//BIG5编码
 #define GBK_FANTI_CODE GBK_CODE+3//GBK编码，里面包含繁体字
 #define UTF8_FANTI_CODE GBK_CODE+4//UTF8编码
+
+
+#define OUTPUT_FORMAT_SHARP 0//正常的字符串按照#链接的输出新词结果
+#define OUTPUT_FORMAT_JSON 1//正常的JSON字符串输出新词结果
+#define OUTPUT_FORMAT_EXCEL  2//正常的CSV字符串输出新词结果,保存为csv格式即可采用Excel打开
 
 /*********************************************************************
  *
@@ -97,7 +103,7 @@ struct result_t{
  *  Parameters : const char * sInitDirPath=NULL
  *				 sDataPath:  Path where Data directory stored.
  *				 the default value is NULL, it indicates the initial directory is current working directory path
- *				 encode: encoding code;
+ *				 int encode: encoding code;
  *				 sLicenseCode: license code for unlimited usage. common user ignore it
  *  Returns    : success or fail
  *  Author     : Kevin Zhang  
@@ -195,7 +201,7 @@ NLPIR_API int NLPIR_GetParagraphProcessAWordCount(const char *sParagraph);
  *  Description: Process a paragraph, API for C#
  *    
  *
- *  Parameters : sParagraph: The source paragraph 
+ *  Parameters : nCount: the paragraph word count.
  *               result_t * result: pointer to result vector size, it is allocated by the invoker
  *  Returns    : None 
  *  Author     :  
@@ -245,7 +251,7 @@ NLPIR_API unsigned int NLPIR_ImportUserDict(const char *sFilename,bool bOverwrit
 *  Description: add a word to the user dictionary ,example:你好	
 *													 i3s	n
 *
-*  Parameters : sFilename: file name
+*  Parameters : sWord:the word added.
 *               
 *  Returns    : 1,true ; 0,false
 *
@@ -260,7 +266,7 @@ NLPIR_API int NLPIR_AddUserWord(const char *sWord);
 *
 *  Description: Clean all temporary added user words
 *
-*  Parameters : sFilename: file name
+*  Parameters : 
 *
 *  Returns    : 1,true ; 0,false
 *
@@ -269,6 +275,22 @@ NLPIR_API int NLPIR_AddUserWord(const char *sWord);
 *              1.create 2017/2/26
 *********************************************************************/
 NLPIR_API int NLPIR_CleanUserWord();
+/*********************************************************************
+*
+*  Func Name  : NLPIR_CleanCurrentUserWord
+*
+*  Description: Clean all Current temporary added user words and restore previous stored data
+*
+*  Parameters :
+*
+*  Returns    : 1,true ; 0,false
+*
+*  Author     :
+*  History    :
+*              1.create 2021/6/19
+*********************************************************************/
+NLPIR_API int NLPIR_CleanCurrentUserWord();
+
 /*********************************************************************
 *
 *  Func Name  : Save
@@ -291,7 +313,7 @@ NLPIR_API int NLPIR_SaveTheUsrDic();
 *
 *  Description: delete a word from the  user dictionary
 *
-*  Parameters : 
+*  Parameters : sWord:the word to be delete.
 *  Returns    : -1, the word not exist in the user dictionary; else, the handle of the word deleted
 *
 *  Author     :   
@@ -308,8 +330,7 @@ NLPIR_API int NLPIR_DelUsrWord(const char *sWord);
 *    
 *
 *  Parameters : sWord: input word 
-*  Returns    : success: 
-*               fail: 
+*  Returns    : The unitary probability of a  word.
 *  Author     : Kevin Zhang  
 *  History    : 
 *              1.create 2005-11-22
@@ -342,7 +363,7 @@ NLPIR_API int NLPIR_IsWord(const char *sWord);
 *  History    :
 *              1.create 2016-12-31
 *********************************************************************/
-NLPIR_API int NLPIR_IsUserWord(const char *sWord);
+NLPIR_API int NLPIR_IsUserWord(const char *sWord, bool bAnsiCode=false);
 
 /*********************************************************************
 *
@@ -412,30 +433,32 @@ NLPIR_API const char*  NLPIR_GetEngWordOrign(const char *sWord);
 
 /*********************************************************************
 *
-*  Func Name  : NLPIR_WordFreqStat(const char *sText)
+*  Func Name  : NLPIR_WordFreqStat(const char *sText,bool bStopRemove)
 *
 *  Description: 获取输入文本的词，词性，频统计结果，按照词频大小排序
-*  Parameters : sWord:输入的文本内容
+*  Parameters : sText:输入的文本内容
+*				bStopRemove: true-去除停用词;false-不去除停用词
 *  Returns    : 返回的是词频统计结果形式如下：
 *				张华平/nr/10#博士/n/9#分词/n/8
 *  Author     : Kevin Zhang
 *  History    : 
 *              1.create 2014/12/11
 *********************************************************************/
-NLPIR_API const char*  NLPIR_WordFreqStat(const char *sText);
+NLPIR_API const char*  NLPIR_WordFreqStat(const char *sText,bool bStopRemove=true);
 /*********************************************************************
 *
 *  Func Name  : NLPIR_FileWordFreqStat(const char *sFilename)
 *
 *  Description: 获取输入文本的词，词性，频统计结果，按照词频大小排序
-*  Parameters : sWord:输入的文本内容
+*  Parameters : sFilename 文本文件的全路径
+*				bStopRemove: true-去除停用词;false-不去除停用词
 *  Returns    : 返回的是词频统计结果形式如下：
 *				张华平/nr/10#博士/n/9#分词/n/8
 *  Author     : Kevin Zhang
 *  History    : 
 *              1.create 2014/12/11
 *********************************************************************/
-NLPIR_API const char*  NLPIR_FileWordFreqStat(const char *sFilename);
+NLPIR_API const char*  NLPIR_FileWordFreqStat(const char *sFilename,bool bStopRemove=true);
 
 /*********************************************************************
 *
@@ -462,10 +485,9 @@ class  __declspec(dllexport) CNLPIR {
 		//Process a file，类似于C下的NLPIR_ParagraphProcess
 		const result_t * ParagraphProcessA(const char *sParagraph,int *pResultCount,bool bUserDict=true);
 		//Process a file，类似于C下的NLPIR_ParagraphProcessA
-
+		const char *WordFreqStat(const char *sLine, bool bStopRemove = true);//词频统计，
 		void ParagraphProcessAW(int nCount,result_t * result);
 		int GetParagraphProcessAWordCount(const char *sParagraph);
-
 		bool SetAvailable(bool bAvailable=true);//当前线程释放该类，可为下一个线程使用
 		bool IsAvailable();//判断当前分词器是否被线程占用
 		unsigned int GetHandle()
@@ -474,13 +496,13 @@ class  __declspec(dllexport) CNLPIR {
 		}
 
 #ifdef  NLPIR_KEY_NEW_FUNC//Include keyword and new word function
-		const char * GetKeyWords(const char *sLine,int nMaxKeyLimit,bool bWeightOut);
+		const char * GetKeyWords(const char *sLine,int nMaxKeyLimit,int nFormat);
 		//获取关键词
-		const char * GetFileKeyWords(const char *sFilename,int nMaxKeyLimit,bool bWeightOut);
+		const char * GetFileKeyWords(const char *sFilename,int nMaxKeyLimit,int nFormat);
 		//从文本文件中获取关键词
-		const char * GetNewWords(const char *sFilename,int nMaxKeyLimit,bool bWeightOut);
+		const char * GetNewWords(const char *sFilename,int nMaxKeyLimit,int nFormat);
 		//获取新词
-		const char * GetFileNewWords(const char *sFilename,int nMaxKeyLimit,bool bWeightOut);
+		const char * GetFileNewWords(const char *sFilename,int nMaxKeyLimit,int nFormat);
 		//从文本文件中获取新词
 #endif
 private:
@@ -511,7 +533,7 @@ NLPIR_API CNLPIR* GetActiveInstance();
 *
 *  Description: Extract a finger print from the paragraph
 *
-*  Parameters :
+*  Parameters :sLine：input text
 *  Returns    : 0, failed; else, the finger print of the content
 *
 *  Author     :   
@@ -519,6 +541,57 @@ NLPIR_API CNLPIR* GetActiveInstance();
 *              1.create 11:10:2008
 *********************************************************************/
 NLPIR_API unsigned long NLPIR_FingerPrint(const char *sLine);
+
+
+/*********************************************************************
+*
+*  Func Name  : NLPIR_Tokenizer4IR
+*
+*  Description: Tokenization a paragraph for information retrieval
+*
+*
+*  Parameters : const char* sLine: The source line
+*				bool bFineSegment: true: need finer segment（国务院办公厅->国务院  办公厅）; false: no need
+*					
+*  Returns    : JSON format string
+*  Author     :  Kevin Zhang
+*  History    :
+*              1.create 2019-12-25
+*输入：国务院办公厅转发商务部的结果如下：
+*[
+{
+"begin" : 0,
+"end" : 6,
+"pos" : "nt",
+"text" : "国务院办公厅"
+},
+{
+"begin" : 0,
+"end" : 3,
+"pos" : "",
+"text" : "国务院"
+},
+{
+"begin" : 3,
+"end" : 6,
+"pos" : "",
+"text" : "办公厅"
+},
+{
+"begin" : 6,
+"end" : 8,
+"pos" : "v",
+"text" : "转发"
+},
+{
+"begin" : 8,
+"end" : 11,
+"pos" : "n",
+"text" : "商务部"
+}
+]
+*********************************************************************/
+NLPIR_API const char * NLPIR_Tokenizer4IR(const char *sLine,bool bFineSegment=true);
 
 #ifdef  NLPIR_KEY_NEW_FUNC//Include keyword and new word function
 /*********************************************************************
@@ -540,7 +613,7 @@ NLPIR_API unsigned long NLPIR_FingerPrint(const char *sLine);
 *  History    : 
 *              1.create 2012/11/12
 *********************************************************************/
-NLPIR_API const char * NLPIR_GetKeyWords(const char *sLine,int nMaxKeyLimit=50,bool bWeightOut=false);
+NLPIR_API const char * NLPIR_GetKeyWords(const char *sLine,int nMaxKeyLimit=50, int nFormat = OUTPUT_FORMAT_SHARP);
 
 /*********************************************************************
 *
@@ -560,20 +633,22 @@ NLPIR_API const char * NLPIR_GetKeyWords(const char *sLine,int nMaxKeyLimit=50,b
 *  History    : 
 *              1.create 2012/11/12
 *********************************************************************/
-NLPIR_API const char * NLPIR_GetFileKeyWords(const char *sFilename,int nMaxKeyLimit=50,bool bWeightOut=false);
+NLPIR_API const char * NLPIR_GetFileKeyWords(const char *sFilename,int nMaxKeyLimit=50, int nFormat = OUTPUT_FORMAT_SHARP);
 
 /*********************************************************************
  *
  *  Func Name  : NLPIR_ImportKeyBlackList
  *
  *  Description: Import keyword black list 
- *  Parameters : Text filename for user dictionary, each line for a stop keyword
+ *  Parameters : sFilename: Text filename for user defined blacklist dictionary, each line for a stop keyword
+ *				 sPOSBlacklist: 停用的词性列表，即列为该词性列表访问的词不纳入关键词范围，
+ *								如设置为#nr#ns#表示nr,ns不作为关键词
  *  Returns    : The  number of  lexical entry imported successfully
  *  Author     : Kevin Zhang
  *  History    : 
  *              1.create 2014-6-26
  *********************************************************************/
-NLPIR_API unsigned int NLPIR_ImportKeyBlackList(const char *sFilename);
+NLPIR_API unsigned int NLPIR_ImportKeyBlackList(const char *sFilename,const char *sPOSBlacklist=0);
 
 /*********************************************************************
 *
@@ -593,7 +668,7 @@ NLPIR_API unsigned int NLPIR_ImportKeyBlackList(const char *sFilename);
 *  History    : 
 *              1.create  2012/11/12
 *********************************************************************/
-NLPIR_API const char * NLPIR_GetNewWords(const char *sLine,int nMaxKeyLimit=50,bool bWeightOut=false);
+NLPIR_API const char * NLPIR_GetNewWords(const char *sLine,int nMaxKeyLimit=50, int nFormat = OUTPUT_FORMAT_SHARP);
 
 /*********************************************************************
 *
@@ -613,7 +688,7 @@ NLPIR_API const char * NLPIR_GetNewWords(const char *sLine,int nMaxKeyLimit=50,b
 *  History    : 
 *              1.create 2012/11/12
 *********************************************************************/
-NLPIR_API const char * NLPIR_GetFileNewWords(const char *sFilename,int nMaxKeyLimit=50,bool bWeightOut=false);
+NLPIR_API const char * NLPIR_GetFileNewWords(const char *sFilename,int nMaxKeyLimit=50, int nFormat = OUTPUT_FORMAT_SHARP);
 
 
 /*********************************************************************
@@ -699,7 +774,7 @@ NLPIR_API int NLPIR_NWI_Complete();//文件或者内存导入结束
 *  History    : 
 *              1.create 2013/11/23
 *********************************************************************/
-NLPIR_API const char * NLPIR_NWI_GetResult(bool bWeightOut=false);//输出新词识别结果
+NLPIR_API const char * NLPIR_NWI_GetResult(int nFormat = OUTPUT_FORMAT_SHARP);//输出新词识别结果
 
 /*********************************************************************
 *
@@ -717,7 +792,7 @@ NLPIR_API const char * NLPIR_NWI_GetResult(bool bWeightOut=false);//输出新词识别
 *  History    : 
 *              1.create 2015/10/13
 *********************************************************************/
-NLPIR_API const char * NLPIR_NWI_GetKeyWordResult(int nMaxKeyLimit=50,bool bWeightOut=false);
+NLPIR_API const char * NLPIR_NWI_GetKeyWordResult(int nMaxKeyLimit=50,int nFormat=false);
 
 /*********************************************************************
 *
@@ -735,4 +810,4 @@ NLPIR_API const char * NLPIR_NWI_GetKeyWordResult(int nMaxKeyLimit=50,bool bWeig
 *********************************************************************/
 NLPIR_API unsigned int  NLPIR_NWI_Result2UserDict();//新词识别结果转为用户词典,返回新词结果数目
 #endif//NLPIR_INTERNAL_CALL
-#endif//#define __NLPIR_ICTCLAS_2014_H_INCLUDED__
+#endif//#define __NLPIR_ICTCLAS_2018_H_INCLUDED__

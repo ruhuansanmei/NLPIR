@@ -1,0 +1,181 @@
+No:1	word=实施乡村	pos=n_new	freq=6	LV=5	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(145,161,303,315,425,583,)
+LV(，(1),。(1),了(2),将(1),把(1),)
+RV(振兴(6),)
+No:2	word=乡村振兴	pos=n_new	freq=13	LV=8	RV=6	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(7,44,131,146,162,304,316,426,498,508,544,584,654,)
+LV(末##末(1),谈(1),，(1),。(1),了(1),社会主义(1),实施(6),为(1),)
+RV(：(1),讲究(2),是(1),道路(1),战略(7),提供(1),)
+No:3	word=振兴战略	pos=n_new	freq=7	LV=1	RV=3	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(147,163,305,317,427,585,655,)
+LV(乡村(7),)
+RV(，(2),的(4),作为(1),)
+No:4	word=真金	pos=n_new	freq=3	LV=2	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(15,65,565,)
+LV(，(1),有(2),)
+RV(白银(3),)
+No:5	word=中央一	pos=n_new	freq=6	LV=5	RV=1	is_stopword=0	unit_count=2	weight=0.02
+Inverted List(36,85,105,115,156,647,)
+LV(解读(1),的(1),。(1),2018年(2),个(1),)
+RV(号(6),)
+No:6	word=农业农村	pos=n_new	freq=2	LV=2	RV=2	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(123,446,)
+LV(推进(1),把(1),)
+RV(现代化(1),优先(1),)
+No:7	word=农村工作	pos=n_new	freq=3	LV=3	RV=3	is_stopword=0	unit_count=2	weight=0.01
+Inverted List(24,398,487,)
+LV(中央(1),在(1),管(1),)
+RV(中(1),领导(1),落到实处(1),)
+No:8	word=真刀	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(52,552,)
+LV(必须(2),)
+RV(真(2),)
+No:9	word=刀真	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(53,553,)
+LV(真(2),)
+RV(枪(2),)
+No:10	word=真枪	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(54,554,)
+LV(刀(2),)
+RV(地(2),)
+No:11	word=硬投入	pos=n_new	freq=2	LV=2	RV=2	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(70,570,)
+LV(的(2),“(2),)
+RV(、(2),”(2),)
+No:12	word=投入保障	pos=n_new	freq=2	LV=2	RV=2	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(366,375,)
+LV(健全(1),强化(1),)
+RV(；(1),制度(1),)
+No:13	word=战略规划	pos=n_new	freq=2	LV=2	RV=2	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(381,700,)
+LV(乡村(1),国家(1),)
+RV(，(1),引(1),)
+No:14	word=总体要求	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(150,166,)
+LV(的(2),)
+RV(和(2),)
+No:15	word=主要任务	pos=n_new	freq=2	LV=1	RV=2	is_stopword=0	unit_count=2	weight=0.01
+Inverted List(153,169,)
+LV(和(2),)
+RV(。(1),概括(1),)
+No:16	word=文件提出	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(312,402,)
+LV(。(2),)
+RV(，(2),)
+No:17	word=制度性	pos=n_new	freq=2	LV=2	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(342,748,)
+LV(的(1),强化(1),)
+RV(供给(2),)
+No:18	word=规划引	pos=n_new	freq=2	LV=2	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(385,701,)
+LV(战略(1),强化(1),)
+RV(领(2),)
+No:19	word=梁八	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=2	weight=0.00
+Inverted List(660,684,)
+LV(四(2),)
+RV(柱(2),)
+No:20	word=实施乡村振兴	pos=n_new	freq=6	LV=5	RV=1	is_stopword=0	unit_count=3	weight=0.00
+Inverted List(145,161,303,315,425,583,)
+LV(，(1),。(1),了(2),将(1),把(1),)
+RV(战略(6),)
+No:21	word=乡村振兴战略	pos=n_new	freq=7	LV=2	RV=3	is_stopword=0	unit_count=3	weight=0.00
+Inverted List(146,162,304,316,426,584,654,)
+LV(了(1),实施(6),)
+RV(，(2),的(4),作为(1),)
+No:22	word=必须真刀	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=3	weight=0.00
+Inverted List(51,551,)
+LV(。(2),)
+RV(真(2),)
+No:23	word=真刀真	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=3	weight=0.00
+Inverted List(52,552,)
+LV(必须(2),)
+RV(枪(2),)
+No:24	word=梁八柱	pos=n_new	freq=2	LV=1	RV=3	is_stopword=0	unit_count=3	weight=0.00
+Inverted List(660,684,)
+LV(四(2),)
+RV(，(1),”(2),可以(1),)
+No:25	word=实施乡村振兴战略	pos=n_new	freq=6	LV=5	RV=3	is_stopword=0	unit_count=4	weight=0.00
+Inverted List(145,161,303,315,425,583,)
+LV(，(1),。(1),了(2),将(1),把(1),)
+RV(，(2),的(3),作为(1),)
+No:26	word=必须真刀真	pos=n_new	freq=2	LV=1	RV=1	is_stopword=0	unit_count=4	weight=0.00
+Inverted List(51,551,)
+LV(。(2),)
+RV(枪(2),)
+)
+ Sentence Information:
+No:1	line原标题：中农办主任谈乡村振兴：必须持之以恒地干，真金白银地投 2月5日，中央农村工作领导小组办公室主任韩俊在国务院新闻办全面解读中央一号文件精神时表示，乡村振兴讲究的是实干。
+weight=0.00
+wordid_list_size=0()
+No:2	line必须真刀真枪地干、持之以恒地干，必须有真金白银的“硬投入”、有更加健全的政策“软环境”。
+weight=0.00
+wordid_list_size=0()
+No:3	line 2018年中央一号文件是改革开放以来第20个、进入新世纪以来连续下发的第15个中央一号文件。
+weight=0.00
+wordid_list_size=0()
+No:4	line 韩俊称，2018年中央一号文件描绘了加快推进农业农村现代化，走中国特色社会主义乡村振兴道路的宏伟政策蓝图。
+weight=0.00
+wordid_list_size=0()
+No:5	line 一是，明确了实施乡村振兴战略的总体要求和主要任务。
+weight=0.00
+wordid_list_size=0()
+No:6	line中央一号文件将实施乡村振兴战略的总体要求和主要任务概括为“五个新”和“一个增强”，即以产业兴旺为重点，提升农业发展质量，培育乡村发展新动能；
+weight=0.00
+wordid_list_size=0()
+No:7	line以生态宜居为关键，推进乡村绿色发展，打造人与自然和谐共生发展新格局；
+weight=0.00
+wordid_list_size=0()
+No:8	line以乡风文明为保障，繁荣兴盛农村文化，焕发乡风文明新气象；
+weight=0.00
+wordid_list_size=0()
+No:9	line以治理有效为基础，加强农村基层基础工作，构建乡村治理新体系；
+weight=0.00
+wordid_list_size=0()
+No:10	line以生活富裕为根本，提高农村民生保障水平，塑造美丽乡村新风貌；
+weight=0.00
+wordid_list_size=0()
+No:11	line以摆脱贫困为前提，打好精准脱贫攻坚战，增强贫困群众获得感。
+weight=0.00
+wordid_list_size=0()
+No:12	line 二是，明确了实施乡村振兴战略的重大政策举措。
+weight=0.00
+wordid_list_size=0()
+No:13	line文件提出，实施乡村振兴战略，要突出“四个强化”，即以完善农村产权制度和要素市场化配置为重点，强化制度性供给；
+weight=0.00
+wordid_list_size=0()
+No:14	line畅通智力、技术、管理下乡通道，造就更多乡土人才，强化人才支撑；
+weight=0.00
+wordid_list_size=0()
+No:15	line健全投入保障制度，开拓投融资渠道，强化投入保障；
+weight=0.00
+wordid_list_size=0()
+No:16	line制定国家乡村战略规划，强化规划引领作用。
+weight=0.00
+wordid_list_size=0()
+No:17	line 三是，要求把党管农村工作落到实处。
+weight=0.00
+wordid_list_size=0()
+No:18	line文件提出，要发挥党的领导的政治优势，压实责任，完善机制，强化考核，把实施乡村振兴战略作为全党的共同意志、共同行动，做到认识统一、步调一致，把农业农村优先发展原则体现到各个方面，在干部配备上优先考虑，在要素配置上优先满足，在资金投入上优先保障，在公共服务上优先安排，确保党在农村工作中始终总揽全局、协调各方，为乡村振兴提供坚强有力的政治保障。
+weight=0.00
+wordid_list_size=0()
+No:19	line 乡村振兴是党和国家的大战略，是一项长期的历史性任务，不是造一些典型或干几年就可以大功告成、收官交账的。
+weight=0.00
+wordid_list_size=0()
+No:20	line乡村振兴讲究的是实干。
+weight=0.00
+wordid_list_size=0()
+No:21	line必须真刀真枪地干、持之以恒地干，必须有真金白银的“硬投入”、有更加健全的政策“软环境”。
+weight=0.00
+wordid_list_size=0()
+No:22	line实施乡村振兴战略， 我们有习近平总书记把舵定向，有党的领导的政治优势，有社会主义的制度优势，有亿万农民的创造精神，有强大的经济实力支撑，有历史悠久的农耕文明，也有旺盛的市场需求。
+weight=0.00
+wordid_list_size=0()
+No:23	line 此外，韩俊也表示今年的中央一号文件确立起了乡村振兴战略的“四梁八柱”，可以说内容亮点多、政策突破点多、工作的重要抓手多。
+weight=0.00
+wordid_list_size=0()
+No:24	line“四梁八柱”可以概括为“八个有”，即有国家战略规划引领、有党内法规保障、有日益健全的法治保障、有领导责任制保障、有一系列重要战略重大行动重大工程作支撑、有对农民关心的关键小事的部署安排、有全方位的制度性供给、也有对解决“钱从哪里来” 问题的全面谋划。
+weight=0.00
+wordid_list_size=0()
+No:25	line 点击进入专题 责任编辑：霍宇昂
+weight=0.00
+wordid_list_size=0()

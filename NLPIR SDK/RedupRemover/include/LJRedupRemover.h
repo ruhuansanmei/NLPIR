@@ -19,7 +19,7 @@
 #define LJRR_API extern "C"  __declspec(dllimport)
 #endif
 #endif
-
+#define UNKNOWN_CODE -1//如果是各种编码混合，设置为-1，系统自动检测，并内部转换
 #define GBK_CODE 0//默认支持GBK编码
 #define UTF8_CODE GBK_CODE+1//UTF8编码
 #define BIG5_CODE GBK_CODE+2//BIG5编码
@@ -100,7 +100,7 @@ LJRR_API int RR_FileProcessE(const char *sFilename);
  *  Description: RR_FindRepeat
  *               find repeat file
  *
- *  Parameters : char *sReturnString: return result string；
+ *  Parameters : char *sReturnString: return all repeat file name, using ';' seperator；
  *				 bAllOutput，,true return all repeat file，false:only return one file
  *  Returns    : bool: true=repeat; failed=no repeat;or failed
  *  Author     :  
@@ -108,6 +108,21 @@ LJRR_API int RR_FileProcessE(const char *sFilename);
  *              1.create 2014-7-16
  *********************************************************************/
 LJRR_API bool RR_FindRepeat(char *sReturnString, bool bAllOutput = false);
+/*********************************************************************
+*
+*  Func Name  : RR_FindRepeatJson
+*
+*  Description: RR_FindRepeatJson for the last input file content
+*               find repeat file
+*
+*  Parameters : char *sReturnString: return all repeat file name, using ';' seperator；
+*				 bAllOutput，,true return all repeat file，false:only return one file
+*  Returns    : Json format result
+*  Author     :
+*  History    :
+*              1.create 2020-1-2
+*********************************************************************/
+LJRR_API const char* RR_FindRepeatJson();
 
 /*********************************************************************
  *
@@ -118,13 +133,32 @@ LJRR_API bool RR_FindRepeat(char *sReturnString, bool bAllOutput = false);
  *
  *  Parameters : const char *sOutputFile: output file name；
  *				
+ *				sResultPath- [OUT]在sResultPath指定的路径下,按照去重结果输出分不同子目录存储；为空则不输出
  *  Returns    : bool: 1=repeat; 0=no repeat;-1=failed
  *  Author     :  
  *  History    : 
  *              1.create 2014-7-16
  *********************************************************************/
 //保存重复文件信息
-LJRR_API bool RR_Output(const char *sHistoryDataFile = "RepeatFile.txt");
+LJRR_API bool RR_Output(const char *sHistoryDataFile = "RepeatFile.txt",const char *sResultPath=0);
+/*********************************************************************
+*
+*  Func Name  : RR_OutputJson
+*
+*  Description: RR_OutputJson
+*               output all repeat results
+*
+*  Parameters : 
+*  Returns    : 按照JSON格式输出重复内容ID
+*  [
+[repeatfileID11,repeatfileID12,...],[repeatfileID21,repeatfileID22,...],...
+]
+*  Author     :
+*  History    :
+*              1.create 2019-12-25
+*********************************************************************/
+//保存重复文件信息
+LJRR_API const char * RR_OutputJson();
 
 /*********************************************************************
  *
@@ -145,9 +179,9 @@ LJRR_API bool RR_SaveHistoryData(const char *DataFilePath = "Data.txt");
 //
 /*********************************************************************
  *
- *  Func Name  : RR_GetLastErrMsg
+ *  Func Name  : RR_GetLastErrorMsg
  *
- *  Description: RR_GetLastErrMsg
+ *  Description: RR_GetLastErrorMsg
  *              获得错误提示消息
  *
  *  Parameters : None；
@@ -157,6 +191,6 @@ LJRR_API bool RR_SaveHistoryData(const char *DataFilePath = "Data.txt");
  *  History    : 
  *              1.create 2014-7-16
  *********************************************************************/
-LJRR_API const char* RR_GetLastErrMsg();
+LJRR_API const char* RR_GetLastErrorMsg();
 
 #endif //__LJREDUP_REMOVER_INCLUDED_H__
